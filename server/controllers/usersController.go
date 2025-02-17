@@ -12,12 +12,13 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Signup(c *gin.Context) {
-	var body struct {
-		Email    string
-		Password string
-	}
+type userRequest struct {
+	Email    string
+	Password string
+}
 
+func Signup(c *gin.Context) {
+	var body userRequest
 	if c.Bind(&body) != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid body"})
 		return
@@ -43,11 +44,7 @@ func Signup(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
-	var body struct {
-		Email    string
-		Password string
-	}
-
+	var body userRequest
 	if c.Bind(&body) != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid body"})
 		return
@@ -90,6 +87,6 @@ func Validate(c *gin.Context) {
 	user, _ := c.Get("user")
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": user,
+		"message": user.(models.User).ID,
 	})
 }

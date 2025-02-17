@@ -22,6 +22,7 @@ func main() {
 	})
 
 	routes.UserRoutes(r)
+	routes.PostRoutes(r)
 
 	r.Run()
 }
